@@ -7,11 +7,66 @@ botaoAdicionar.addEventListener('click', function (evento){
 
     let paciente = obterValoresDoForm(form)
 
+    let erros = validaPaciente(paciente)
+
+    if(erros.length > 0){
+        exibeMensagemDeErro(erros)
+        return
+    }
+
     adicionaPacienteNaTabela(paciente)
 
-    console.log(paciente)
+    let mensagemErro = document.querySelector("#mesagens-erro")
+    mensagemErro.innerHTML = ''
 
 })
+//--------------------------------------------------------------------------------------//
+
+function validaPaciente(paciente){
+    let erros = []
+
+    if(paciente.nome.length == 0){
+        erros.push('o nome não pode estar em branco')
+    } 
+    if(paciente.gordura.length == 0){
+        erros.push('A gordura não pode estar em branco')
+    }
+    if(paciente.peso.length == 0){
+        erros.push('o peso não pode estar em branco')
+    }
+    if(paciente.altura.length == 0){
+        erros.push('A altura não pode estar em branco')
+    }
+    if(!validaPeso(paciente.peso)){
+        erros.push('Peso valido')
+    }
+    if(!validaAltura(paciente.altura)){
+        erros.push('Altura valida')
+    }
+    return erros
+}
+
+
+function exibeMensagemDeErro(erros){
+    let ul = document.querySelector('#mensagens-erro')
+    ul.innerHTML = ''
+
+    erros.forEach(function(erro){
+        let li = document.createElement('li')
+        li.textContent = erro 
+        ul.appendChild(li) //regras de negocio//
+    })
+}
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------//
 
 
 //ligção com o botão
